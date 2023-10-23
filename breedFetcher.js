@@ -7,44 +7,21 @@ const request = require('request');
  */
 const fetchBreedDescription = function(breedName, callback) {
 
-  callback = function(err, response, breedDetails) {
+  function validReqCallback(err, response, body) {
     if (err) {
-      console.error('error message: ', err.message);
-      return;
+      return callback(err.message, null);
+
     }
-    const data = JSON.parse(breedDetails);
-    console.log('data: ', data);
+    const data = JSON.parse(body);
+    const breed = data[0];
+    if (breed) {
+      callback(null, breed.description);
+    } else {
+      callback("Breed not found", null);
+    }
   }
 
-  request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, callback);
+  request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, validReqCallback);
 
 }
-module.exports = {fetchBreedDescription};
-
-
-
-
-
-  // (error,response,body) => {
-  //   if (error) {
-  //     console.error('error message: ', error.message);
-  //     return;
-  //   }
-    
-  //   console.log('status code: ', response&&response.statusCode);
-  //   //console.log('type of body: ', typeof body);
-  //   //console.log('body: ', body);
-  //   const data = JSON.parse(body);
-  //   console.log('Number of Results: ', data.length);
-  //   if (data.length === 0) {
-  //     console.log("Search text did not math with any cat breed");
-  //     return;
-  //   }
-  //   //console.log('type of data: ', typeof data);
-  //   //console.log('weight: ', data[0].weight);
-  //   console.log('data: ', data);
-  // });
-
-
-
-
+module.exports = { fetchBreedDescription };

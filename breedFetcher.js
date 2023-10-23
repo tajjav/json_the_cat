@@ -1,8 +1,10 @@
 const request = require('request');
 
-//let cmdBreedName = process.argv[2];
-//console.log(cmdBreedName);
-
+/**
+ * fetchBreedDescription function definition
+ * @param {String} breedName 
+ * @param {Function} callback 
+ */
 const fetchBreedDescription = function(breedName, callback) {
 
   callback = function(err, response, breedDetails) {
@@ -15,6 +17,14 @@ const fetchBreedDescription = function(breedName, callback) {
   }
 
   request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, callback);
+
+}
+module.exports = {fetchBreedDescription};
+
+
+
+
+
   // (error,response,body) => {
   //   if (error) {
   //     console.error('error message: ', error.message);
@@ -34,11 +44,6 @@ const fetchBreedDescription = function(breedName, callback) {
   //   //console.log('weight: ', data[0].weight);
   //   console.log('data: ', data);
   // });
-}
-module.exports = {fetchBreedDescription};
-
-
-
 
 
 
